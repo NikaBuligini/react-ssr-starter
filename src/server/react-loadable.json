@@ -203,7 +203,7 @@
       "publicPath": "server.js"
     }
   ],
-  "./modules/_core": [
+  "./_core": [
     {
       "id": "./node_modules/core-js/modules/_core.js",
       "name": "./node_modules/core-js/modules/_core.js",
@@ -2747,7 +2747,7 @@
       "publicPath": "server.js"
     }
   ],
-  "/home/goga/Documents/web/test/src/server/entry.js": [
+  "/home/goga/Documents/web/react-ssr-starter/src/server/entry.js": [
     {
       "id": "./src/server/entry.js",
       "name": "./src/server/entry.js",

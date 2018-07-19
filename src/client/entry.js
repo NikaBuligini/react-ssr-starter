@@ -5,6 +5,7 @@ import App from '../shared/App';
 const S = () => (
   <div>
     <App />
+    <div>Hello again</div>
   </div>
 );
 
