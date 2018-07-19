@@ -1,0 +1,17 @@
+{
+  "presets": [
+    [
+      "env", {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7", "ie 11", "iOS 10"],
+          "node": "current"
+        },
+        "useBuiltIns": true
+      }
+    ],
+    "flow",
+    "stage-2",
+    "react"
+  ],
+  "plugins": ["syntax-dynamic-import", "react-loadable/babel"]
+}
