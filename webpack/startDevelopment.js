@@ -6,7 +6,7 @@ const log = require('npmlog');
 const rimraf = require('rimraf');
 const { clientConfig, serverConfig } = require('./webpack.config.dev');
 
-// rimraf.sync(path.resolve(__dirname, '../dist'));
+rimraf.sync(path.resolve(__dirname, '../dist'));
 
 let isServerStarted = false;
 const startServer = () => {
