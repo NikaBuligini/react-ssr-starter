@@ -7,21 +7,29 @@ import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import type { Store } from 'redux';
+import Loadable from 'react-loadable';
+import { getBundles } from 'react-loadable/webpack';
+import log from 'npmlog';
+import App from '../shared/App';
 import configureStore from './serverUtils/configureStore';
 import createPage from './serverUtils/createPage';
 import write from './serverUtils/write';
-import App from '../shared/App';
+import stats from './react-loadable.json';
 
 type AppStore = Store<*, *, *>;
 
 function handleRender(req: express$Request, res: express$Response, store: AppStore) {
+  const loadableModules: any = [];
+
   const styleSheet = new ServerStyleSheet();
 
   const markup = renderToString(
     styleSheet.collectStyles(
       <Provider store={store}>
         <StaticRouter location={req.url} context={{}}>
-          <App />
+          <Loadable.Capture report={moduleName => loadableModules.push(moduleName)}>
+            <App />
+          </Loadable.Capture>
         </StaticRouter>
       </Provider>,
     ),
@@ -33,7 +41,9 @@ function handleRender(req: express$Request, res: express$Response, store: AppSto
 
   const styleTags = styleSheet.getStyleTags();
 
-  const html = createPage(markup, preloadedState, helmet, styleTags);
+  const loadableBundles = getBundles(stats, loadableModules);
+
+  const html = createPage(markup, preloadedState, helmet, styleTags, loadableBundles);
 
   write(html, 'text/html', res);
 }

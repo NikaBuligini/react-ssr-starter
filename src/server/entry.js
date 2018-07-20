@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import compression from 'compression';
 import favicon from 'serve-favicon';
+import Loadable from 'react-loadable';
 import routes from './router';
 import createDevelopmentProxy from './serverUtils/createDevelopmentProxy';
 import logger from './serverUtils/logger';
@@ -16,10 +17,11 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(compression()); // to compress each response
-// app.use(favicon(path.resolve(__dirname, '../../public/favicon.ico')));
+app.use(favicon(path.resolve(__dirname, '../../public/favicon.ico')));
 
 const sessionConfig = {
   name: 'eSession',
+  saveUninitialized: false,
   secret: 'super secret', // better be the same as cookie-parser
   resave: false, // to avoid alter at parallel request
   cookie: {},
@@ -33,7 +35,7 @@ if (isDevelopment) {
   app.set('trust proxy', 1);
   sessionConfig.cookie.secure = true;
 
-  app.use(express.static('/assets', path.join(__dirname, '../client/assets')));
+  app.use('/assets', express.static(path.resolve(__dirname)));
 }
 
 app.use(cookieParser('super secret')); // better be the same as express-session
@@ -47,10 +49,12 @@ const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
 const port = process.env.PORT || 8000;
 
-server.listen(port, host, error => {
-  if (error) {
-    logger.error(error);
-  } else {
-    logger.appStarted(port, prettyHost);
-  }
+Loadable.preloadAll().then(() => {
+  server.listen(port, host, error => {
+    if (error) {
+      logger.error(error);
+    } else {
+      logger.appStarted(port, prettyHost);
+    }
+  });
 });

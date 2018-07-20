@@ -6,8 +6,8 @@ import path from 'path';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const pathToTemplate = isDevelopment
-  ? path.resolve(__dirname, '../../../public/template.html')
-  : path.resolve(__dirname, '../../../dist/client/template.html');
+  ? path.resolve(__dirname, '../../public/template.html')
+  : path.resolve(__dirname, '../../dist/template.html');
 
 const template = fs.existsSync(pathToTemplate) ? fs.readFileSync(pathToTemplate, 'utf8') : '';
 
@@ -28,6 +28,10 @@ export default (
   styleTags: string,
   loadableBundles: any,
 ) => {
+  const scripts = loadableBundles
+    .filter(bundle => bundle.publicPath.endsWith('.js'))
+    .map(bundle => `<script src=${bundle.publicPath}></script>`);
+
   const context = {
     title: helmet.title.toString(),
     meta: helmet.meta.toString(),
@@ -41,7 +45,7 @@ export default (
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
       </script>
     `,
-    loadableBundles,
+    scripts,
   };
 
   return formatString(template, context);

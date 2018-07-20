@@ -6,13 +6,12 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 const clientConfig = {
-  mode: 'production',
   target: 'web',
   entry: {
     app: ['babel-polyfill', path.resolve(__dirname, '../src/client/entry.js')],
   },
   output: {
-    path: path.resolve(__dirname, '../dist/client/assets'),
+    path: path.resolve(__dirname, '../dist/assets'),
     filename: '[name].[chunkhash:8].js',
     chunkFilename: '[name].chunk.[chunkhash:8].js',
     publicPath: '/assets/',
@@ -60,7 +59,7 @@ const clientConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/template.html'),
-      filename: path.resolve(__dirname, '../dist/client/template.html'),
+      filename: path.resolve(__dirname, '../dist/template.html'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -87,15 +86,18 @@ const clientConfig = {
 };
 
 const serverConfig = {
-  mode: 'production',
   target: 'node',
   entry: {
     app: ['babel-polyfill', path.resolve(__dirname, '../src/server/entry.js')],
   },
+  node: {
+    __dirname: false,
+  },
   output: {
-    path: path.resolve(__dirname, '../dist/server'),
+    path: path.resolve(__dirname, '../dist/assets'),
     filename: 'server.js',
-    libraryTarget: 'commonjs2', // The most important part is to set commonjs2 for node server
+    chunkFilename: '[name].chunk.[chunkhash:8].js',
+    publicPath: '/assets/',
   },
   module: {
     rules: [
@@ -115,6 +117,7 @@ const serverConfig = {
     ],
   },
   plugins: [
+    new AsyncChunkNames(),
     new ReactLoadablePlugin({
       filename: path.join(__dirname, '../src/server/react-loadable.json'), // Stuff for dynamic import and code splitting for server
     }),
