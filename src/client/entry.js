@@ -1,16 +1,30 @@
 import React from 'react';
-import { render } from 'react-dom';
-import App from '../shared/App';
+import { hydrate } from 'react-dom';
+import Loadable from 'react-loadable';
 
-const S = () => (
+const AsyncApp = Loadable({
+  loader: () => import('../shared/App'),
+  loading: () => <div />,
+});
+
+const AsyncLine = Loadable({
+  loader: () => import('./Line'),
+  loading: () => <div />,
+});
+
+const Wrapper = () => (
   <div>
-    <App />
-    <div>Hello again</div>
+    <AsyncLine />
+    <AsyncApp />
   </div>
 );
 
-render(<S />, document.getElementById('root'));
+Loadable.preloadReady().then(() => {
+  hydrate(<Wrapper />, document.getElementById('root'));
+});
 
-if (module.hot) {
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+if (isDevelopment && module.hot) {
   module.hot.accept();
 }

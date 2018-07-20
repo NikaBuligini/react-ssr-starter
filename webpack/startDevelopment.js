@@ -16,8 +16,8 @@ const startServer = () => {
     },
     ignore: ['*'],
     script: path.resolve(__dirname, '../dist/server/server.js'),
-    watch: ['fake/'],
-    ext: 'fakeext',
+    watch: ['foo/'],
+    ext: 'noop',
   });
 
   nodemon

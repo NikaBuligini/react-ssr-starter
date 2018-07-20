@@ -20,7 +20,7 @@ const clientConfig = {
   output: {
     path: path.resolve(__dirname, '../dist/client/assets'),
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
+    chunkFilename: '[name].[chunkhash:8].js',
     publicPath: '/assets/',
   },
   module: {
@@ -67,18 +67,6 @@ const clientConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/template.html'),
       filename: path.resolve(__dirname, '../dist/client/template.html'),
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
     }),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
