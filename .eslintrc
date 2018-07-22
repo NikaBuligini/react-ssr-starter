@@ -42,7 +42,6 @@
     "react/jsx-no-bind": "error",
     "no-else-return": "error",
     "react/jsx-key": "error",
-    "react/destructuring-assignment": "warn",
     "react/jsx-curly-spacing": "warn",
     "react/no-deprecated": "warn",
     "react/no-danger": "warn",
