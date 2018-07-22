@@ -1,23 +1,13 @@
-/** @flow */
-
 /**
- * Increase counter value
+ * Counter increment/decrement
  */
 
-export const INCREASE_COUNTER: string = 'INCREASE_COUNTER';
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
 
-export function increaseCounter(step: number) {
+export function alterCounterValue(type, step) {
   return {
-    type: INCREASE_COUNTER,
-    step,
-  };
-}
-
-export const DECREASE_COUNTER: string = 'DECREASE_COUNTER';
-
-export function decreaseCoutner(step: number) {
-  return {
-    type: DECREASE_COUNTER,
+    type,
     step,
   };
 }

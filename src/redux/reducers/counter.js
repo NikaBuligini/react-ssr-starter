@@ -1,20 +1,19 @@
 import merge from 'lodash/merge';
 import * as ActionTypes from '../actions';
 
-const initialTestState = {
+const initialCounterState = {
   counter: 0,
 };
 
-/* eslint-disable indent */
-export default function counter(state = initialTestState, action) {
+export default function counter(state = initialCounterState, action) {
   switch (action.type) {
-    case ActionTypes.INCREASE_COUNTER:
+    case ActionTypes.INCREMENT:
       return merge({}, state, {
-        counter: state.counter + action.step,
+        counter: state.counter + 1,
       });
-    case ActionTypes.DECREASE_COUNTER:
+    case ActionTypes.DECREMENT:
       return merge({}, state, {
-        counter: state.counter - action.step,
+        counter: state.counter - 1,
       });
     default:
       return state;
