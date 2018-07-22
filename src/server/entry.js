@@ -3,29 +3,20 @@ import express from 'express';
 import http from 'http';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import compression from 'compression';
 import favicon from 'serve-favicon';
-import Loadable from 'react-loadable';
+
 import routes from './router';
 import createDevelopmentProxy from './serverUtils/createDevelopmentProxy';
-import logger from './serverUtils/logger';
+import startServer from './serverUtils/startServer';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const app = express();
 const server = http.createServer(app);
 
-app.use(compression()); // to compress each response
+app.use(compression());
 app.use(favicon(path.resolve(__dirname, '../../public/favicon.ico')));
-
-const sessionConfig = {
-  name: 'eSession',
-  saveUninitialized: false,
-  secret: 'super secret', // better be the same as cookie-parser
-  resave: false, // to avoid alter at parallel request
-  cookie: {},
-};
 
 if (isDevelopment) {
   createDevelopmentProxy(app);
@@ -33,28 +24,12 @@ if (isDevelopment) {
   app.use(helmet());
 
   app.set('trust proxy', 1);
-  sessionConfig.cookie.secure = true;
 
-  app.use('/assets', express.static(path.resolve(__dirname)));
+  app.use('/assets', express.static(path.resolve(__dirname, '../client/assets')));
 }
 
-app.use(cookieParser('super secret')); // better be the same as express-session
-app.use(session(sessionConfig));
+app.use(cookieParser('super secret'));
 
 app.use('/', routes);
 
-// Get the intended host and port number, use localhost and port 8000 if not provided
-const customHost = process.env.HOST;
-const host = customHost || null; // Let http.Server use its default IPv6/4 host
-const prettyHost = customHost || 'localhost';
-const port = process.env.PORT || 8000;
-
-Loadable.preloadAll().then(() => {
-  server.listen(port, host, error => {
-    if (error) {
-      logger.error(error);
-    } else {
-      logger.appStarted(port, prettyHost);
-    }
-  });
-});
+startServer(server);

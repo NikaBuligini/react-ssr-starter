@@ -2,16 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 const clientConfig = {
+  mode: 'production',
   target: 'web',
   entry: {
     app: ['babel-polyfill', path.resolve(__dirname, '../src/client/entry.js')],
   },
   output: {
-    path: path.resolve(__dirname, '../dist/assets'),
+    path: path.resolve(__dirname, '../dist/client/assets'),
     filename: '[name].[chunkhash:8].js',
     chunkFilename: '[name].chunk.[chunkhash:8].js',
     publicPath: '/assets/',
@@ -21,7 +20,7 @@ const clientConfig = {
       {
         test: /\.jsx?$/,
         exclude: /[\\/](node_modules)[\\/]/,
-        loader: 'babel-loader?cacheDirectory=true',
+        loader: 'babel-loader',
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -42,10 +41,12 @@ const clientConfig = {
     runtimeChunk: true,
     splitChunks: {
       cacheGroups: {
+        default: false,
         vendors: {
           test: /[\\/](node_modules)[\\/]/,
           name: 'vendors',
           chunks: 'all',
+          reuseExistingChunk: true,
         },
         styles: {
           name: 'styles',
@@ -59,7 +60,7 @@ const clientConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/template.html'),
-      filename: path.resolve(__dirname, '../dist/template.html'),
+      filename: path.resolve(__dirname, '../dist/client/template.html'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -73,55 +74,49 @@ const clientConfig = {
         minifyURLs: true,
       },
     }),
-    new CompressionPlugin({
-      test: /\.js?$/,
-      algorithm: 'gzip',
-      cache: true,
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-    }),
+    new MiniCssExtractPlugin(),
     new AsyncChunkNames(),
   ],
 };
 
 const serverConfig = {
+  mode: 'production',
   target: 'node',
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   entry: {
     app: ['babel-polyfill', path.resolve(__dirname, '../src/server/entry.js')],
   },
-  node: {
-    __dirname: false,
-  },
   output: {
-    path: path.resolve(__dirname, '../dist/assets'),
+    path: path.resolve(__dirname, '../dist/server'),
     filename: 'server.js',
-    chunkFilename: '[name].chunk.[chunkhash:8].js',
-    publicPath: '/assets/',
+    libraryTarget: 'commonjs2',
+    chunkFilename: 'ssr.[name].[chunkhash:8].js',
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /[\\/](node_modules|dist)[\\/]/,
-        use: 'babel-loader?cacheDirectory=true',
+        use: 'babel-loader',
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        loaders: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(jpe?g|png|gif|svg|txt|woff2?)$/i,
-        use: 'file-loader?name=images/[name].[ext]$emitFile=false',
+        loader: 'file-loader?name=assets/images/[name].[ext]&emitFile=false',
       },
       {
         test: /\.(ttf|woff|woff2|eot|otf)(\?.*)?$/,
-        use: 'file-loader?name=fonts/[name].[ext]$emitFile=false',
+        use: 'file-loader?name=assets/fonts/[name].[ext]&emitFile=false',
       },
     ],
   },
-  plugins: [
-    new AsyncChunkNames(),
-    new ReactLoadablePlugin({
-      filename: path.join(__dirname, '../src/server/react-loadable.json'), // Stuff for dynamic import and code splitting for server
-    }),
-  ],
+  plugins: [new AsyncChunkNames(), new MiniCssExtractPlugin()],
 };
 
 module.exports = {

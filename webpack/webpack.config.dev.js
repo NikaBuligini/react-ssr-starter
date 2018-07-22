@@ -3,12 +3,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const clientConfig = {
   mode: 'development',
   target: 'web',
-  devtool: 'cheap-module-source-map',
   entry: {
     app: [
       'webpack-dev-server/client?http://0.0.0.0:8080',
@@ -46,13 +45,13 @@ const clientConfig = {
   },
   optimization: {
     noEmitOnErrors: true,
-    runtimeChunk: true,
     splitChunks: {
       cacheGroups: {
         vendors: {
           test: /[\\/](node_modules)[\\/]/,
           name: 'vendors',
           chunks: 'all',
+          enforce: true,
         },
         styles: {
           name: 'styles',
@@ -64,11 +63,13 @@ const clientConfig = {
     },
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
+      alwaysWriteToDisk: true,
       template: path.resolve(__dirname, '../public/template.html'),
       filename: path.resolve(__dirname, '../dist/client/template.html'),
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackHarddiskPlugin(), // To force emit html in dist folder with already injected bundled files in dev
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
@@ -80,19 +81,18 @@ const serverConfig = {
   mode: 'development',
   target: 'node',
   entry: {
-    app: [
-      'webpack/hot/signal.js',
-      'babel-polyfill',
-      path.resolve(__dirname, '../src/server/entry.js'),
-    ],
+    app: ['babel-polyfill', path.resolve(__dirname, '../src/server/entry.js')],
   },
   node: {
     __dirname: false,
+    __filename: false,
+    console: true,
   },
   output: {
     path: path.resolve(__dirname, '../dist/server'),
     filename: 'server.js',
-    libraryTarget: 'commonjs2', // The most important part is to set commonjs2 for node server
+    chunkFilename: '[name].[chunkhash:8].js',
+    libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
@@ -103,20 +103,15 @@ const serverConfig = {
       },
       {
         test: /\.(jpe?g|png|gif|svg|txt|woff2?)$/i,
-        use: 'file-loader?name=images/[name].[ext]$emitFile=false',
+        use: 'file-loader?name=/assets/images/[name].[ext]&emitFile=false',
       },
       {
         test: /\.(ttf|woff|woff2|eot|otf)(\?.*)?$/,
-        use: 'file-loader?name=fonts/[name].[ext]$emitFile=false',
+        use: 'file-loader?name=/assets/fonts/[name].[ext]&emitFile=false',
       },
     ],
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactLoadablePlugin({
-      filename: path.join(__dirname, '../src/server/react-loadable.json'), // Stuff for dynamic import and code splitting for server
-    }),
-  ],
+  plugins: [new AsyncChunkNames()],
 };
 
 module.exports = {

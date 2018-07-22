@@ -3,20 +3,21 @@
 import fs from 'fs';
 import path from 'path';
 import httpProxy from 'http-proxy';
+import log from 'npmlog';
 
 const proxy = httpProxy.createProxyServer();
 
 export default app => {
   proxy.on('error', (error, req, res) => {
     if (error.code !== 'ECONNRESET') {
-      console.error('Proxy server error: ', error);
+      log.error('PROXY SERVER ERROR: ', error);
     }
 
     if (!res.headersSent) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
     }
 
-    console.log('Could not connect to proxy, please try again...');
+    log.info('PROXY: ', 'Could not connect to proxy, please try again...');
     const json = { error: 'proxy_error', reason: error.message };
     res.end(JSON.stringify(json));
   });
