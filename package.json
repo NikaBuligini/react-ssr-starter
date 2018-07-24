@@ -1,11 +1,14 @@
 {
-  "name": "react-webpack",
+  "name": "react-ssr-starter",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Goga Gogoberishvili <ggogoberishvili@outlook.com> (https://github.com/ggogobera)",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:dev": "nodemon --watch server scripts/startDev.js"
+    "bundle": "node scripts/build",
+    "start:dev": "nodemon --watch server scripts/startDev",
+    "start:prod": "export NODE_ENV=production && node server"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
@@ -39,12 +42,13 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-react": "^7.10.0",
-    "html-webpack-plugin": "^3.2.0",
+    "fs-extra": "^7.0.0",
     "lodash-webpack-plugin": "^0.11.5",
     "nodemon": "^1.18.3",
     "react-dev-utils": "^5.0.1",
     "react-error-overlay": "^4.0.0",
     "react-hot-loader": "^4.3.3",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-middleware": "^3.1.3",

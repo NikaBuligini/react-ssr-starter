@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const shrinkRay = require('shrink-ray');
 const helmet = require('helmet');
-const log = require('npmlog');
 const webpack = require('webpack');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
@@ -14,7 +13,7 @@ const app = express();
 
 if (process.env.PUBLIC_URL === undefined) {
   process.env.PUBLIC_URL = '';
-  log.warn('PUBLIC_URL: ', 'If something does not work, check PUBLIC_URL');
+  console.log('PUBLIC_URL: ', 'If something does not work, check PUBLIC_URL');
 }
 
 app.use(shrinkRay()); // compress all requests
