@@ -13,14 +13,16 @@ module.exports = {
     app: [
       'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
       'react-error-overlay',
-      path.resolve(__dirname, '../src/index.js'),
+      path.resolve(__dirname, '../src/index.jsx'),
     ],
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].bundle.js',
     chunkFilename: '[name].chunk.[chunkhash:8].js',
-    publicPath: env.raw.PUBLIC_URL + '/',
+  },
+  resolve: {
+    extensions: ['.jsx', '.js'],
   },
   module: {
     rules: [

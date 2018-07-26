@@ -30,12 +30,18 @@ config/
   ├── env.js
   ├── webpack.config.dev.js
   ├── webpack.config.prod.js
+flow-typed/
+  ├── npm/
+  │     ...
+  │     ├── ...flow files...
+  │     ...
 scripts/
   ├── build.js
   ├── startDev.js
 server/
   ├── serverUtils/
   │     ├── createPage.js
+  │     ├── configureStore.js
   ├── app.js
   ├── handleRequest.js
   ├── index.js
@@ -48,8 +54,8 @@ src/
   │     │     ├── counter.js
   │     │     ├── index.js
   │     ├── configureStore.js
-  ├── App.js
-  ├── index.js
+  ├── App.jsx
+  ├── index.jsx
 .babelrc
 .eslintignore
 .eslintrc
@@ -57,5 +63,6 @@ src/
 .prettierrc
 LICENSE
 package.json
+README.md
 yarn.lock
 ```

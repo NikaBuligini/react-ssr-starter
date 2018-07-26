@@ -1,6 +1,6 @@
 [ignore]
 .*/node_modules/.*
-.*/flow-typed/npm
+.*/flow-typed/*
 
 [libs]
 .*/flow-typed/npm

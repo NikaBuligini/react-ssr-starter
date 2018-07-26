@@ -9,11 +9,11 @@ export default function counter(state = initialCounterState, action) {
   switch (action.type) {
     case ActionTypes.INCREMENT:
       return merge({}, state, {
-        counter: state.counter + 1,
+        counter: state.counter + action.step,
       });
     case ActionTypes.DECREMENT:
       return merge({}, state, {
-        counter: state.counter - 1,
+        counter: state.counter - action.step,
       });
     default:
       return state;
