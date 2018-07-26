@@ -12,6 +12,10 @@ This repo will give you a minimal basis of front-end development with React whic
 ```
 git clone https://github.com/ggogobera/react-ssr-starter.git
 ```
+#### Build Flow typed **!required**
+```
+npm run flow:build
+```
 #### Start development server
 ```
 npm run start:dev
@@ -30,11 +34,6 @@ config/
   ├── env.js
   ├── webpack.config.dev.js
   ├── webpack.config.prod.js
-flow-typed/
-  ├── npm/
-  │     ...
-  │     ├── ...flow files...
-  │     ...
 scripts/
   ├── build.js
   ├── startDev.js
