@@ -1,6 +1,5 @@
 # [react-ssr-starter](https://github.com/ggogobera/react-ssr-starter)
-This repo will give you a minimal basis of front-end development with React which you can also perceive by it's name. You can tweak it as you want in your project, but be sure you have got a ground for safe developing. It does, but mainly doesn't take safety measures, because of differences between various environements. It's all up to you how you integrate this code with your environement. All responsibilities are on you. :exclamation: **STILL DEVELOPING** :exclamation:
-As this starter uses styled-components, there isn't need to add css loaders...
+This repo will give you a minimal basis of front-end development with React which you can also perceive by it's name. You can tweak it as you want in your project, but be sure you have got a ground for safe developing. It does, but mainly doesn't take safety measures, because of differences between various environements. It's all up to you how you integrate this code with your environement. All responsibilities are on you. As this starter uses styled-components, there isn't need to add css loaders... :exclamation: **STILL DEVELOPING** :exclamation:
 ## Table of contents
 - [Usage](#usage)
   - [Start development server](#start-development-server)
