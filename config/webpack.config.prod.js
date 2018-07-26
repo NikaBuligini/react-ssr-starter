@@ -11,13 +11,16 @@ const env = require('./env')();
 module.exports = {
   mode: 'production',
   entry: {
-    app: path.resolve(__dirname, '../src/index.js'),
+    app: path.resolve(__dirname, '../src/index.jsx'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: 'assets/js/[name].[chunkhash:10].js',
     chunkFilename: 'assets/js/[name].chunk.[chunkhash:10].js',
     publicPath: env.raw.PUBLIC_URL + '/',
+  },
+  resolve: {
+    extensions: ['.jsx', '.js'],
   },
   module: {
     rules: [

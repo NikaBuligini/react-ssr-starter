@@ -8,7 +8,7 @@ import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 
 import App from '../src/App';
-import configureStore from '../src/redux/configureStore';
+import configureStore from './serverUtils/configureStore';
 import createPage from './serverUtils/createPage';
 
 const handleRequest = (req, res) => {

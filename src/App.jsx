@@ -1,3 +1,5 @@
+/** @flow */
+
 import React from 'react';
 import styled from 'styled-components';
 import { hot } from 'react-hot-loader';
@@ -7,9 +9,13 @@ const Wrapper = styled.div`
   font-family: Segoe UI;
 `;
 
-class App extends React.Component {
+type State = {
+  counter: number,
+};
+
+class App extends React.Component<*, State> {
   state = {
-    timer: 0,
+    counter: 0,
   };
 
   componentDidMount() {
@@ -18,7 +24,7 @@ class App extends React.Component {
 
   tick = () => {
     this.setState(
-      prevState => ({ timer: prevState.timer + 4 }),
+      prevState => ({ counter: prevState.counter + 1 }),
       () => {
         this.timer = setTimeout(() => {
           this.tick();
@@ -35,8 +41,10 @@ class App extends React.Component {
     clearTimeout(this.timer);
   };
 
+  timer: TimeoutID;
+
   render() {
-    return <Wrapper>{this.state.timer}</Wrapper>;
+    return <Wrapper>{this.state.counter}</Wrapper>;
   }
 }
 
