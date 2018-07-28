@@ -56,4 +56,4 @@ const createPage = ({ helmet, preloadedState, styleTags, bundles, html }) => {
   `;
 };
 
-module.exports = createPage;
+export default createPage;
