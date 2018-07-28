@@ -48,4 +48,4 @@ const handleRequest = (req, res) => {
   }
 };
 
-module.exports = handleRequest;
+export default handleRequest;

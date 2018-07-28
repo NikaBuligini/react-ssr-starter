@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const webpack = require('webpack');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
-const handleRequest = require('./handleRequest');
+const handleRequest = require('./handleRequest').default;
 const webpackDevConfig = require('../config/webpack.config.dev');
 const compiler = webpack(webpackDevConfig);
 
