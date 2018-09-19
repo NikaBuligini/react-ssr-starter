@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -46,10 +46,11 @@ module.exports = {
   ],
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        test: /\.jsx?$/i,
+      new TerserWebpackPlugin({
+        test: /\.(js|jsx)(\?.*)?$/,
         parallel: true,
-        uglifyOptions: {
+        terserOptions: {
+          ecma: 5,
           safari10: true,
         },
       }),

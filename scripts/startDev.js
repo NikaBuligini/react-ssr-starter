@@ -12,13 +12,12 @@ process.on('unhandledRejection', err => {
 
 require('../config/env');
 
-const chalk = require('chalk');
 const clearConsole = require('react-dev-utils/clearConsole');
 const { choosePort, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
-const openBrowser = require('react-dev-utils/openBrowser');
 const Loadable = require('react-loadable');
 
 const app = require('../server/app').default;
+const logger = require('./utils/logger').default;
 
 const DEFAULT_PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -42,10 +41,7 @@ choosePort(HOST, DEFAULT_PORT)
           clearConsole();
         }
 
-        console.log(chalk.cyan(`Running on local network at ${urls.lanUrlForConfig}:${port}`));
-        console.log(chalk.cyan('Starting the development server...\n'));
-
-        openBrowser(urls.localUrlForBrowser);
+        logger(urls);
       });
     });
   })

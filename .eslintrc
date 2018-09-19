@@ -2,7 +2,6 @@
   "parser": "babel-eslint",
   "plugins": [
     "flowtype",
-    "jsx-a11y",
     "react"
   ],
   "extends": [
@@ -39,7 +38,6 @@
     "react/no-string-refs": "error",
     "react/no-this-in-sfc": "error",
     "react/no-multi-comp": "error",
-    "react/jsx-no-bind": "error",
     "no-else-return": "error",
     "react/jsx-key": "error",
     "react/jsx-curly-spacing": "warn",
