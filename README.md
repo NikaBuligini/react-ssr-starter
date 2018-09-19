@@ -35,6 +35,8 @@ config/
   ├── webpack.config.dev.js
   ├── webpack.config.prod.js
 scripts/
+  ├── utils/
+  ├──   ├── logger.js
   ├── build.js
   ├── startDev.js
 server/
