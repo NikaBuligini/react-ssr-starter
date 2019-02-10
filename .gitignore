@@ -54,7 +54,7 @@ typings/
 # dotenv environment variables file
 .env
 
-/dist
+/build
 /flow-typed/npm/
 
 .DS_Store

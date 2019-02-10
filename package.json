@@ -1,10 +1,91 @@
 {
   "name": "react-ssr-starter",
   "version": "2.0.0",
-  "description": "React app starter with server side rendering. Typed with Flow",
+  "description": "React app starter with server side rendering. Types checked with Flow",
   "main": "index.js",
   "repository": "https://github.com/ggogobera/react-ssr-starter.git",
   "author": "Goga Gogoberishvili <ggogoberishvili@outlook.com> (https://github.com/ggogobera)\"",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "flow:build": "flow-typed install",
+    "webpack:test": "export NODE_ENV=development && webpack --config ./config/webpack.config.js"
+  },
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@svgr/webpack": "^4.1.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-react": "^7.12.4",
+    "flow-bin": "^0.92.1",
+    "flow-typed": "^2.5.1",
+    "prettier": "^1.16.4",
+    "react-dev-utils": "^7.0.1",
+    "terser-webpack-plugin": "^1.2.2",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
+  },
+  "browserslist": [
+    "> 0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "no-console": "warn",
+      "react/sort-comp": "warn",
+      "react/jsx-pascal-case": "warn",
+      "react/self-closing-comp": "warn",
+      "react/no-direct-mutation-state": "warn",
+      "react/no-redundant-should-component-update": "warn",
+      "react/no-array-index-key": "error",
+      "react/no-did-mount-set-state": "error",
+      "react/no-did-update-set-state": "error",
+      "react/no-will-update-set-state": "error",
+      "react/no-access-state-in-setstate": "error"
+    },
+    "settings": {
+      "react": {
+        "createClass": "createReactClass",
+        "pragma": "React",
+        "version": "detect"
+      }
+    }
+  },
+  "prettier": {
+    "parser": "babel-flow",
+    "printWidth": 100,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  }
 }
