@@ -1,21 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
+import Loadable from 'react-loadable'
 
-function App() {
-  const [counter, setCounter] = useState(0)
+const App = () => <div>hello world</div>
 
-  return (
-    <div>
-      <p>{counter}</p>
-      <br />
-      <button
-        type="button"
-        onClick={() => setCounter(currentState => ({ counter: currentState.counter + 1 }))}
-      >
-        increase counter
-      </button>
-    </div>
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById('root'))
+window.renderer = () =>
+  Loadable.preloadReady().then(() => {
+    ReactDOM.hydrate(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
+      document.getElementById('root')
+    )
+  })

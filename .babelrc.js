@@ -1,13 +1,25 @@
 module.exports = function(api) {
-  const isEnvDevelopment = process.env.NODE_ENV === 'development'
-  api.cache.using(() => !isEnvDevelopment)
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  api.cache(() => !isDevelopment)
 
   return {
     presets: [
-      ['@babel/preset-env', { useBuiltIns: 'usage', debug: isEnvDevelopment, loose: true }],
-      ['@babel/preset-react', { development: isEnvDevelopment }],
+      ['@babel/preset-env', { useBuiltIns: 'usage', loose: true, modules: 'cjs' }],
+      ['@babel/preset-react', { development: isDevelopment }],
       '@babel/preset-flow'
     ],
-    plugins: []
+    plugins: [
+      'inline-react-svg',
+      [
+        'styled-components',
+        {
+          ssr: true,
+          displayName: isDevelopment,
+          minify: !isDevelopment,
+          pure: !isDevelopment
+        }
+      ],
+      isDevelopment && 'react-hot-loader/babel'
+    ].filter(Boolean)
   }
 }
