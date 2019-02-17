@@ -44,16 +44,6 @@ module.exports = {
             }
           },
           {
-            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-            issuer: { test: /\.jsx?$/ },
-            use: ['babel-loader', '@svgr/webpack', 'url-loader?emitFile=false'],
-          },
-          {
-            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url-loader',
-            options: { limit: 8000, emitFile: false }
-          },
-          {
             loader: 'file-loader',
             exclude: [/\.(js|mjs|jsx)$/, /\.html$/, /\.json$/, /\.txt$/, /\.xml$/],
             options: { 
