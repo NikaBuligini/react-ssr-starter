@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'development') {
   require('@babel/register')({
     plugins: [
       [
-        'file-loader',
+        'file-loader', // acts as url-loader before limit is reached
         {
           name: 'media/[name].[hash:8].[ext]',
           extensions: ['bmp', 'gif', 'jpg', 'jpeg', 'png'],

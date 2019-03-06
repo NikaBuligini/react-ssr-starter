@@ -33,6 +33,8 @@ module.exports =  {
       {
         test: /\.(js|mjs|jsx)$/,
         enforce: 'pre',
+        include: paths.appSrc,
+        exclude: /[\\/](node_modules)[\\/]/,
         use: [
           {
             loader: 'eslint-loader',
@@ -42,8 +44,6 @@ module.exports =  {
             },
           },
         ],
-        include: paths.appSrc,
-        exclude: /[\\/](node_modules)[\\/]/,
       },
       {
         oneOf: [

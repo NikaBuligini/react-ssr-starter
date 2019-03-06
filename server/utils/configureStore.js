@@ -9,5 +9,7 @@ function rootReducer(state, action) {
   }
 }
 
-export default (preloadedState, extraMiddlewares = []) =>
+const serverConfigureStore = (preloadedState, extraMiddlewares = []) =>
   createStore(rootReducer, preloadedState, applyMiddleware(thunk, ...extraMiddlewares))
+
+export default serverConfigureStore
