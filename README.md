@@ -29,41 +29,5 @@ npm run bundle
 npm run start:prod
 ```
 ## Folder structure
-```
-config/
-  ├── env.js
-  ├── webpack.config.dev.js
-  ├── webpack.config.prod.js
-scripts/
-  ├── utils/
-  ├──   ├── logger.js
-  ├── build.js
-  ├── startDev.js
-server/
-  ├── serverUtils/
-  │     ├── createPage.js
-  │     ├── configureStore.js
-  ├── app.js
-  ├── handleRequest.js
-  ├── index.js
-src/
-  ├── redux/
-  │     ├── actions/
-  │     │     ├── counter.js
-  │     │     ├── index.js
-  │     ├── reducers/
-  │     │     ├── counter.js
-  │     │     ├── index.js
-  │     ├── configureStore.js
-  ├── App.jsx
-  ├── index.jsx
-.babelrc
-.eslintignore
-.eslintrc
-.flowconfig
-.prettierrc
-LICENSE
-package.json
-README.md
-yarn.lock
-```
+
+...will be provided...
