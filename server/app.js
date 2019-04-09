@@ -1,57 +1,49 @@
 /* eslint-disable no-console */
 
-const path = require('path');
-const express = require('express');
-const shrinkRay = require('shrink-ray');
-const helmet = require('helmet');
-const webpack = require('webpack');
-const devMiddleware = require('webpack-dev-middleware');
-const hotMiddleware = require('webpack-hot-middleware');
-const handleRequest = require('./handleRequest').default;
-const webpackDevConfig = require('../config/webpack.config.dev');
-const compiler = webpack(webpackDevConfig);
+import path from 'path'
+import express from 'express'
+import compression from 'compression'
+import helmet from 'helmet'
+import webpack from 'webpack'
+import devMiddleware from 'webpack-dev-middleware'
+import hotMiddleware from 'webpack-hot-middleware'
+import handleRequest from './handleRequest'
+import webpackClientConfig from '../config/webpack.config'
 
-const app = express();
+const compiler = webpack(webpackClientConfig)
+const app = express()
 
-if (process.env.PUBLIC_URL === undefined) {
-  process.env.PUBLIC_URL = '';
-  console.log('PUBLIC_URL: ', 'If something does not work, check PUBLIC_URL');
-}
-
-app.use(shrinkRay()); // compress all requests
-app.use(helmet()); // security reasons. !different from react-helmet!
-
+app.use(compression()) // compress all requests
+app.use(helmet()) // security reasons. !different from react-helmet!
 app.use(
-  process.env.PUBLIC_URL,
-  express.static(path.join(__dirname, '../dist'), {
-    maxage: '10 days',
-  }),
-);
+  webpackClientConfig.output.publicPath,
+  express.static(path.join(__dirname, '../build/client'), { maxage: '20 days' })
+)
 
 if (process.env.NODE_ENV === 'development') {
   app.use(
     devMiddleware(compiler, {
       hot: true,
-      publicPath: webpackDevConfig.output.publicPath,
+      publicPath: webpackClientConfig.output.publicPath,
       progress: true,
       stats: {
         colors: true,
         assets: true,
         chunks: false,
         modules: false,
-        hash: false,
-      },
-    }),
-  );
+        hash: false
+      }
+    })
+  )
 
   app.use(
     hotMiddleware(compiler, {
       path: '/__webpack_hmr',
-      heartbeat: 4000,
-    }),
-  );
+      heartbeat: 2000
+    })
+  )
 }
 
-app.get('*', handleRequest);
+app.get('*', handleRequest)
 
-export default app;
+export default app

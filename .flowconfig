@@ -1,10 +1,5 @@
 [ignore]
 .*/node_modules/.*
-.*/flow-typed/*
 
-[libs]
-.*/flow-typed/npm
-
-[options]
-module.file_ext=.js
-module.file_ext=.jsx
+[include]
+.*/src/.*

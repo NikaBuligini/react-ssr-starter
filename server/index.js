@@ -1,34 +1,33 @@
-require('babel-core/register')({
-  plugins: ['syntax-dynamic-import'],
-});
+/* eslint-disable no-console */
 
-const os = require('os');
-const cluster = require('cluster');
-const Loadable = require('react-loadable');
-const app = require('./app').default;
-
-const PORT = process.env.PORT || 5000;
-
-if (cluster.isMaster) {
-  console.log('CLUSTER: ', `Master PID is ${process.pid}`);
-
-  os.cpus().forEach(() => cluster.fork());
-
-  cluster.on('exit', worker => {
-    console.warn('CLUSTER: ', `Worker ${worker.process.pid} died. Restarting...`);
-    cluster.fork();
-  });
-} else {
-  Loadable.preloadAll().then(() => {
-    app.listen(PORT, error => {
-      if (error) {
-        return log.error('SERVER: ', error);
-      }
-
-      console.log(
-        'SERVER: ',
-        `Server running on port ${PORT} - WORKER PID: ${cluster.worker.process.pid}`,
-      );
-    });
-  });
+if (process.env.NODE_ENV === 'development') {
+  require('@babel/register')({
+    plugins: [
+      [
+        'file-loader', // acts as url-loader before limit is reached
+        {
+          name: 'media/[name].[hash:8].[ext]',
+          extensions: ['bmp', 'gif', 'jpg', 'jpeg', 'png'],
+          publicPath: '/', // always serve from '/' in development
+          outputPath: null,
+          limit: 10000 /* 10KB */
+        }
+      ]
+    ]
+  })
 }
+
+const Loadable = require('react-loadable')
+const app = require('./app').default
+
+const PORT = process.env.PORT || 5000
+
+Loadable.preloadAll().then(() => {
+  app.listen(PORT, error => {
+    if (error) {
+      return console.error('SERVER: ', error)
+    }
+
+    console.log('SERVER: ', `Server running on port ${PORT}`)
+  })
+})
