@@ -8,10 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "export NODE_ENV=development && node server",
-    "start:serv": "export NODE_ENV=development && webpack --config config/webpack.config.server.js",
+    "start": "cross-env NODE_ENV=development babel-node server",
+    "start:serv": "cross-env NODE_ENV=development webpack --config config/webpack.config.server.js",
     "flow:build": "flow-typed install",
-    "webpack:test": "export NODE_ENV=production && webpack --config ./config/webpack.config.js && webpack --config ./config/webpack.config.server.js"
+    "webpack:test-client": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js",
+    "webpack:test-server": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.server.js",
+    "webpack:test": "yarn webpack:test-client && yarn webpack:test-server"
   },
   "dependencies": {
     "compression": "^1.7.3",
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
@@ -42,6 +45,7 @@
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-styled-components": "^1.10.0",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
+    "cross-env": "^6.0.3",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-loader": "^2.1.2",
@@ -64,7 +68,9 @@
     "webpack-node-externals": "^1.7.2"
   },
   "nodemonConfig": {
-    "ignore": ["build/*"]
+    "ignore": [
+      "build/*"
+    ]
   },
   "browserslist": [
     "> 0.2%",
